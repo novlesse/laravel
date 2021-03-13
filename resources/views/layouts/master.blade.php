@@ -11,6 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="/assets/css/main.css" />
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}" />
+		@yield('head')
 	</head>
 	<body>
 		<!-- Header -->
@@ -29,8 +30,7 @@
 				</ul>
 			</nav>
 
-            @yield('content')
-
+            @yield ('content')
 		<!-- Footer -->
 			<footer id="footer">
 				<div class="container">
