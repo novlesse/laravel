@@ -26,11 +26,11 @@
                 <label class="label" for="title">Title</label>
 
                 <div class="control">
-                    <input class="input {{ $errors->has('title') ? 'is-danger' : '' }}" type="text" name="title" id="title" />
+                    <input class="input @error('title') is-danger @enderror" type="text" name="title" id="title" value="{{ old('title') }}"/>
 
-                    @if($errors->has('title'))
+                    @error('title')
                         <p class="help is-danger">{{ $errors->first('title') }}</p>
-                    @endif
+                    @enderror
                 </div>
             </div>
 
@@ -38,8 +38,11 @@
                 <label class='label' for='excerpt'>Excerpt</label>
 
                 <div class='control'>
-                    <textarea class='textarea' name='excerpt' id='excerpt'></textarea>
+                    <textarea class="textarea @error('excerpt') is-danger @enderror" name='excerpt' id='excerpt'>{{ old('excerpt') }}</textarea>
 
+                    @error('excerpt')
+                        <p class="help is-danger">{{ $errors->first('excerpt') }}</p>
+                    @enderror
                 </div>
             </div>
 
@@ -47,7 +50,11 @@
                 <label class='label' for='body'>Body</label>
 
                 <div class='control'>
-                    <textarea class='textarea' name='body' id='body'></textarea>
+                    <textarea class="textarea @error('body') is-danger @enderror" name='body' id='body'>{{ @old('body') }}</textarea>
+
+                    @error('body')
+                        <p class="help is-danger">{{ $errors->first('body') }}</p>
+                    @enderror
                 </div>
             </div>
 

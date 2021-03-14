@@ -20,7 +20,7 @@
 				<header class="align-center">
 					<p>{{ $article->excerpt }}</p>
 					<h2>
-						<a href="/articles/{{ $article->id }}">{{ $article->title }}</a>
+						<a href="{{ $article->path() }}">{{ $article->title }}</a>
 					</h2>
 				</header>
 				<p>{{ $article->body }}</p>

@@ -6,6 +6,15 @@ use App\Models\Article;
 
 class ArticlesController extends Controller
 {
+    protected function validateArticle()
+    {
+        return request()->validate([
+            "title" => "required",
+            "excerpt" => "required",
+            "body" => "required",
+        ]);
+    }
+
     public function index()
     {
         // renders a list of resource
@@ -14,11 +23,9 @@ class ArticlesController extends Controller
         return view('articles', ['articles' => $article]);
     }
 
-    public function show($id)
+    public function show(Article $article)
     {
         // renders a specific resource
-        $article = Article::find($id);
-
         return view('articles.show', ['article' => $article]);
     }
 
@@ -31,43 +38,23 @@ class ArticlesController extends Controller
     public function store()
     {
         // persist the new resource
-
-        // validation
-        request()->validate([
-            'title' => ['required'],
-            'excerpt' => ['required'],
-            'body' => ['required'],
-        ]);
-
-        //clean up
-        $article = new Article();
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body');
-        $article->save();
+        Article::create($this->validateArticle());
 
         return redirect('/articles');
     }
 
-    public function edit($id)
+    public function edit(Article $article)
     {
         // show a view to edit an existing resource
-        // find the article associated to id
-        $article = Article::find($id);
-
         return view('articles.edit', compact('article'));
     }
 
-    public function update($id)
+    public function update(Article $article)
     {
         // persist the edited resource
-        $article = Article::find($id);
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body');
-        $article->save();
+        $article->update($this->validateArticle());
 
-        return redirect('/articles/' . $article->id);
+        return redirect($article->path());
     }
 
     public function destroy()
