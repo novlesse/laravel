@@ -15,7 +15,7 @@
 <section id="two" class="wrapper style2">
 	<div class="inner">
 		<div class="box">
-			@foreach ($articles as $article)
+			@forelse ($articles as $article)
 			<div class="content">
 				<header class="align-center">
 					<p>{{ $article->excerpt }}</p>
@@ -25,7 +25,15 @@
 				</header>
 				<p>{{ $article->body }}</p>
 			</div>
-			@endforeach
+			@empty
+			<section id="two" class="wrapper style2">
+				<div class="inner">
+					<header class="align-center">
+						<h4>No relevant articles.</h4>
+					</header>
+				</div>
+			</section>
+			@endforelse
 		</div>
 	</div>
 </section>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Tag;
 
 class ArticlesController extends Controller
 {
@@ -12,15 +13,20 @@ class ArticlesController extends Controller
             "title" => "required",
             "excerpt" => "required",
             "body" => "required",
+            'tags' => 'exists:tags,id',
         ]);
     }
 
     public function index()
     {
         // renders a list of resource
-        $article = Article::take(3)->latest()->get();
+        if (request('tag')) {
+            $articles = Tag::where('name', request('tag'))->firstOrFail()->articles;
+        } else {
+            $articles = Article::first()->get();
+        }
 
-        return view('articles', ['articles' => $article]);
+        return view('articles', ['articles' => $articles]);
     }
 
     public function show(Article $article)
@@ -32,13 +38,19 @@ class ArticlesController extends Controller
     public function create()
     {
         // shows a view to create a new resource
-        return view('articles.create');
+        return view('articles.create', ['tags' => Tag::all()]);
     }
 
     public function store()
     {
         // persist the new resource
-        Article::create($this->validateArticle());
+        $this->validateArticle();
+
+        $article = new Article(request(['title', 'excerpt', 'body']));
+        $article->user_id = 1; // auth()->id();
+        $article->save();
+
+        $article->tags()->attach(request('tags'));
 
         return redirect('/articles');
     }
