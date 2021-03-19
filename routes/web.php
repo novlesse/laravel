@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticlesController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,5 +43,7 @@ Route::get('/articles/{article}/edit', [ArticlesController::class, 'edit']);
 
 Route::put('/articles/{article}', [ArticlesController::class, 'update']);
 
-// IGNORE - PLAYGROUND
-Route::get('/posts/{post}', [PostController::class, 'show']);
+// EMAIL
+Route::get('/contact', [ContactController::class, 'show']);
+
+Route::post('/contact', [ContactController::class, 'store']);
