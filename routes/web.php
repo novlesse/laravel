@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\UserNotificationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,3 +49,14 @@ Route::put('/articles/{article}', [ArticlesController::class, 'update']);
 Route::get('/contact', [ContactController::class, 'show']);
 
 Route::post('/contact', [ContactController::class, 'store']);
+
+// AUTH
+Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('payments/create', [PaymentsController::class, 'create'])->middleware('auth');
+
+Route::post('payments', [PaymentsController::class, 'store'])->middleware('auth');
+
+Route::get('notifications', [UserNotificationsController::class, 'show'])->middleware('auth');
